@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:mvc="">
+<body>
+
+<div id="demo">
+    <h1>自动生成自动化脚本</h1>
+
+    <div id="script_id">
+        <div>
+            请输入Case ID
+        </div>
+        <td><input type="text" name="username" placeholder="ANE-12345" class="name" id="case_id" value="" style="width:500px;"></td>
+        <button id="button" type="button" onclick="loadDoc()">检查Case id</button>
+        <div><font id="script_id_info" color="red"></font></div>
+    </div>
+
+    <br />
+
+    <div id="script_info">
+        <div> Case name: </div>
+        <div id="check_name"></div>
+        <br />
+
+
+        Script name:<br>
+        <input input type="text" name="scriptname" placeholder="api_cui_daycare_validate_participant_age_not_match"
+               class="name" id="script_name" value="" maxlength="60" style="width:500px;">
+        <div><font id="script_name_info" color="red"></font></div>
+        <br>
+        Email address:<br>
+        <input type="text" name="emailaddress" placeholder="email"
+               class="name" id="email_address" value="" maxlength="60" style="width:100px;">@activenetwork.com
+
+        <div><font id="email_address_info" color="red"></font></div>
+        <br>
+        User name
+        <br>
+        <input type="text" name="username" placeholder="Kaison Liu" case_id=""
+                           class="name" id="user_name" value="" maxlength="60" style="width:100px;">
+        <div><font id="user_name_info" color="red"></font></div>
+        <br>
+        <button id="button2" type="button" onclick="loadURL()" >生成链接</button>
+
+    </div>
+
+    <br />
+
+    <div id="script_download">
+        <div id="state">
+        </div>
+        <a id="download" download>
+        <button id="button3" type="button">Download</button>
+        </a>
+    </div>
+</div>
+<script>
+var script_info = document.getElementById("script_info");
+script_info.style.display = "none";
+var script_download = document.getElementById("script_download")
+script_download.style.display = "none";
+var temp_case_id = ""
+
+function loadDoc() {
+  var case_id=document.getElementById('case_id');
+  if (case_id.value.length == 0) {return ""}
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var res = JSON.parse(this.responseText);
+      if (res["headers"]["response_code"] == 0) {
+        document.getElementById("check_name").innerHTML = res["body"]["case_name"];
+        script_info.style.display = "";
+        temp_case_id = res["body"]["case_id"];
+        console.log(temp_case_id)
+      } else {
+        document.getElementById("script_id_info").innerHTML = res["headers"]["response_message"];
+      }
+    }
+  };
+  xhttp.open("GET", "/check_name/"+case_id.value, true);
+  xhttp.send();
+}
+function loadURL() {
+  var script_name=document.getElementById('script_name');
+  var email_address=document.getElementById('email_address');
+  var user_name=document.getElementById('user_name');
+  var email_address=document.getElementById("email_address")
+  var script_name_info=document.getElementById("script_name_info")
+  var email_address_info=document.getElementById("email_address_info")
+  var user_name_info=document.getElementById("user_name_info")
+
+  if (script_name.value.length == 0) {
+    script_name_info.innerHTML = "Should not be null";
+    return ""} else {
+    script_name_info.innerHTML = null;
+    };
+  if (email_address.value.length == 0) {
+    email_address_info.innerHTML = "Should not be null";
+    return ""} else {
+    email_address_info.innerHTML = null;
+    };
+  if (user_name.value.length == 0) {
+    user_name_info.innerHTML = "Should not be null";
+    return ""} else {
+    user_name_info.innerHTML = null;
+    };
+  var xhttp = new XMLHttpRequest();
+  var request = {"scriptname": script_name.value, "emailaddress": email_address.value, "username": email_address.value, "caseid": temp_case_id};
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var res = JSON.parse(this.responseText);
+      console.log(res)
+      if (res["headers"]["response_code"] == 0) {
+        document.getElementById("state").innerHTML = "Script is ready to download";
+        document.getElementById("download").href=res["body"]["download_url"];
+        script_download.style.display = "";
+      } else {
+        document.getElementById("script_name_info").innerHTML = res["headers"]["response_message"]
+      }
+    }
+  };
+  xhttp.open("POST", "/generate/", true);
+  xhttp.send(JSON.stringify(request));
+}
+
+</script>
+
+</body>
+</html>
