@@ -1,129 +1,80 @@
-<!DOCTYPE html>
-<html xmlns:mvc="">
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Vollkorn|Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+	<script src="js/modernizr.js"></script> <!-- Modernizr -->
+  	
+	<title>3D Folding Panel</title>
+</head>
 <body>
+	<main class="cd-main">
+		<header>
+			<h1>To 我的爱人：大色狼</h1>
+		</header>
 
-<div id="demo">
-    <h1>自动生成自动化脚本</h1>
+		<ul class="cd-gallery">
+			<li class="cd-item">
+				<a href="item-1.html">
+					<div>
+						<h2>春</h2>
+						<p>相遇，总是那么巧合</p>
+						<b>iew More</b>
+					</div>
+				</a>
+			</li>
 
-    <div id="script_id">
-        <div>
-            请输入Case ID
-        </div>
-        <td><input type="text" name="username" placeholder="ANE-12345" class="name" id="case_id" value="" style="width:500px;"></td>
-        <button id="button" type="button" onclick="loadDoc()">检查Case id</button>
-        <div><font id="script_id_info" color="red"></font></div>
-    </div>
+			<li class="cd-item">
+				<a href="item-2.html">
+					<div>
+						<h2>夏</h2>
+						<p>相恋，总是那么热烈</p>
+						<b>View More</b>
+					</div>
+				</a>
+			</li>
 
-    <br />
+			<li class="cd-item">
+				<a class="dark-text" href="item-3.html">
+					<div>
+						<h2>秋</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur.</p>
+						<b>View More</b>
+					</div>
+				</a>
+			</li>
 
-    <div id="script_info">
-        <div> Case name: </div>
-        <div id="check_name"></div>
-        <br />
+			<li class="cd-item">
+				<a href="item-4.html">
+					<div>
+						<h2>冬</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur.</p>
+						<b>View More</b>
+					</div>
+				</a>
+			</li>
+		</ul> <!-- .cd-gallery -->
+	</main> <!-- .cd-main -->
 
+	<div class="cd-folding-panel">
+		
+		<div class="fold-left"></div> <!-- this is the left fold -->
+		
+		<div class="fold-right"></div> <!-- this is the right fold -->
+		
+		<div class="cd-fold-content">
+			<!-- content will be loaded using javascript -->
+		</div>
 
-        Script name:<br>
-        <input input type="text" name="scriptname" placeholder="api_cui_daycare_validate_participant_age_not_match"
-               class="name" id="script_name" value="" maxlength="60" style="width:500px;">
-        <div><font id="script_name_info" color="red"></font></div>
-        <br>
-        Email address:<br>
-        <input type="text" name="emailaddress" placeholder="email"
-               class="name" id="email_address" value="" maxlength="60" style="width:100px;">@activenetwork.com
+		<a class="cd-close" href="#0"></a>
+	</div> <!-- .cd-folding-panel -->
 
-        <div><font id="email_address_info" color="red"></font></div>
-        <br>
-        User name
-        <br>
-        <input type="text" name="username" placeholder="Kaison Liu" case_id=""
-                           class="name" id="user_name" value="" maxlength="60" style="width:100px;">
-        <div><font id="user_name_info" color="red"></font></div>
-        <br>
-        <button id="button2" type="button" onclick="loadURL()" >生成链接</button>
-
-    </div>
-
-    <br />
-
-    <div id="script_download">
-        <div id="state">
-        </div>
-        <a id="download" download>
-        <button id="button3" type="button">Download</button>
-        </a>
-    </div>
-</div>
-<script>
-var script_info = document.getElementById("script_info");
-script_info.style.display = "none";
-var script_download = document.getElementById("script_download")
-script_download.style.display = "none";
-var temp_case_id = ""
-
-function loadDoc() {
-  var case_id=document.getElementById('case_id');
-  if (case_id.value.length == 0) {return ""}
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var res = JSON.parse(this.responseText);
-      if (res["headers"]["response_code"] == 0) {
-        document.getElementById("check_name").innerHTML = res["body"]["case_name"];
-        script_info.style.display = "";
-        temp_case_id = res["body"]["case_id"];
-        console.log(temp_case_id)
-      } else {
-        document.getElementById("script_id_info").innerHTML = res["headers"]["response_message"];
-      }
-    }
-  };
-  xhttp.open("GET", "/check_name/"+case_id.value, true);
-  xhttp.send();
-}
-function loadURL() {
-  var script_name=document.getElementById('script_name');
-  var email_address=document.getElementById('email_address');
-  var user_name=document.getElementById('user_name');
-  var email_address=document.getElementById("email_address")
-  var script_name_info=document.getElementById("script_name_info")
-  var email_address_info=document.getElementById("email_address_info")
-  var user_name_info=document.getElementById("user_name_info")
-
-  if (script_name.value.length == 0) {
-    script_name_info.innerHTML = "Should not be null";
-    return ""} else {
-    script_name_info.innerHTML = null;
-    };
-  if (email_address.value.length == 0) {
-    email_address_info.innerHTML = "Should not be null";
-    return ""} else {
-    email_address_info.innerHTML = null;
-    };
-  if (user_name.value.length == 0) {
-    user_name_info.innerHTML = "Should not be null";
-    return ""} else {
-    user_name_info.innerHTML = null;
-    };
-  var xhttp = new XMLHttpRequest();
-  var request = {"scriptname": script_name.value, "emailaddress": email_address.value, "username": email_address.value, "caseid": temp_case_id};
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var res = JSON.parse(this.responseText);
-      console.log(res)
-      if (res["headers"]["response_code"] == 0) {
-        document.getElementById("state").innerHTML = "Script is ready to download";
-        document.getElementById("download").href=res["body"]["download_url"];
-        script_download.style.display = "";
-      } else {
-        document.getElementById("script_name_info").innerHTML = res["headers"]["response_message"]
-      }
-    }
-  };
-  xhttp.open("POST", "/generate/", true);
-  xhttp.send(JSON.stringify(request));
-}
-
-</script>
-
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/main.js"></script> <!-- Resource jQuery -->
 </body>
 </html>
